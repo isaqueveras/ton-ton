@@ -1,0 +1,11 @@
+{
+  "debug": false,
+  "address": ":4747",
+  "database": {
+    "name": "tonton",
+    "host": "localhost",
+    "port": "5432",
+    "user": "postgres",
+    "pass": "postgres"
+  }
+}
