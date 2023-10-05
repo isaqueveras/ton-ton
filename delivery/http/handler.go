@@ -6,7 +6,7 @@ import (
 	"ton-ton/domain"
 	"ton-ton/utils"
 
-	"github.com/labstack/echo"
+	"github.com/gin-gonic/gin"
 )
 
 // handler represent the httphandler
@@ -15,7 +15,7 @@ type handler struct {
 }
 
 // NewHandler will initialize the endpoint
-func NewHandler(g *echo.Group, us domain.Usecase) {
+func NewHandler(g *gin.RouterGroup, us domain.Usecase) {
 	handler := &handler{usecase: us}
 
 	article := g.Group("/article")
@@ -25,23 +25,24 @@ func NewHandler(g *echo.Group, us domain.Usecase) {
 	article.DELETE("", handler.DeleteArticle)
 }
 
-func (a *handler) GetArticle(ctx echo.Context) error {
-	article, err := a.usecase.GetArticle(ctx.Request().Context(), utils.Pointer(ctx.Param("id")))
+func (a *handler) GetArticle(ctx *gin.Context) {
+	article, err := a.usecase.GetArticle(ctx, utils.Pointer(ctx.Param("id")))
 	if err != nil {
-		return ctx.JSON(http.StatusBadRequest, utils.ResponseError{Message: err.Error()})
+		ctx.JSON(http.StatusBadRequest, utils.ResponseError{Message: err.Error()})
+		return
 	}
 
-	return ctx.JSON(http.StatusOK, article)
+	ctx.JSON(http.StatusOK, article)
 }
 
-func (a *handler) AddArticle(ctx echo.Context) error {
-	return ctx.JSON(http.StatusOK, nil)
+func (a *handler) AddArticle(ctx *gin.Context) {
+	ctx.JSON(http.StatusOK, nil)
 }
 
-func (a *handler) EditArticle(ctx echo.Context) error {
-	return ctx.JSON(http.StatusOK, nil)
+func (a *handler) EditArticle(ctx *gin.Context) {
+	ctx.JSON(http.StatusOK, nil)
 }
 
-func (a *handler) DeleteArticle(ctx echo.Context) error {
-	return ctx.JSON(http.StatusOK, nil)
+func (a *handler) DeleteArticle(ctx *gin.Context) {
+	ctx.JSON(http.StatusOK, nil)
 }

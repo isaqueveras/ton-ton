@@ -6,11 +6,11 @@ import (
 
 	"ton-ton/database"
 	"ton-ton/delivery/http"
-	"ton-ton/delivery/http/middleware"
 	"ton-ton/repository"
 	"ton-ton/usecase"
 
-	"github.com/labstack/echo"
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 )
 
@@ -24,8 +24,21 @@ func init() {
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
-	router := echo.New()
-	router.Use(middleware.InitMiddleware().CORS)
+	router := gin.New()
+	router.Use(cors.New(cors.Config{
+		AllowAllOrigins:        false,
+		AllowOrigins:           []string{},
+		AllowOriginFunc:        func(string) bool { panic("not implemented") },
+		AllowMethods:           []string{"GET", "POST", "PUT", "DELETE"},
+		AllowHeaders:           []string{},
+		AllowCredentials:       false,
+		ExposeHeaders:          []string{},
+		MaxAge:                 0,
+		AllowWildcard:          false,
+		AllowBrowserExtensions: false,
+		AllowWebSockets:        false,
+		AllowFiles:             false,
+	}))
 
 	db, err := database.OpenConnection()
 	if err != nil {
@@ -39,5 +52,5 @@ func main() {
 	group := router.Group("v1")
 	http.NewHandler(group, uc)
 
-	log.Fatal(router.Start(viper.GetString("address")))
+	log.Fatal(router.Run(viper.GetString("address")))
 }
