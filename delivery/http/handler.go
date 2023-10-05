@@ -18,8 +18,8 @@ type handler struct {
 func NewHandler(g *echo.Group, us domain.Usecase) {
 	handler := &handler{usecase: us}
 
-	article := g.Group("/article/:id")
-	article.GET("", handler.GetArticle)
+	article := g.Group("/article")
+	article.GET("/:id", handler.GetArticle)
 	article.POST("", handler.AddArticle)
 	article.PUT("", handler.EditArticle)
 	article.DELETE("", handler.DeleteArticle)
