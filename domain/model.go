@@ -1,6 +1,11 @@
 package domain
 
-import "time"
+import (
+	"time"
+	"ton-ton/utils"
+
+	"github.com/gosimple/slug"
+)
 
 const (
 	// ArticlePublishStatus indicates the article is as published
@@ -17,4 +22,10 @@ type Article struct {
 	CreatorID *string    `json:"creator_id,omitempty"`
 	CreatedAt *time.Time `json:"created_at,omitempty"`
 	UpdatedAt *time.Time `json:"updated_at,omitempty"`
+}
+
+func (a *Article) MakeSlug() {
+	if a.Title != nil {
+		a.Slug = utils.Pointer(slug.Make(*a.Title))
+	}
 }

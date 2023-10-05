@@ -24,3 +24,13 @@ tón-tón is a simple headless cms in go
   "creator_id": "a5bc8e67"
 }
 ```
+
+`Edit Article >> /v1/article/:id [PUT]`
+```json
+{
+  "content": "Mombaça é um município brasileiro [...]",
+  "status": "Publish"
+}
+```
+
+`Delete Article >> /v1/article/:id [DELETE]`

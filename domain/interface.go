@@ -6,14 +6,14 @@ import "context"
 type Usecase interface {
 	GetArticle(context.Context, *string) (*Article, error)
 	AddArticle(context.Context, *Article) error
-	EditArticle(context.Context, *string) (*Article, error)
-	DeleteArticle(context.Context, *string) (*Article, error)
+	EditArticle(context.Context, *Article) error
+	DeleteArticle(context.Context, *string) error
 }
 
 // ITonTon represent the repository contract
 type ITonTon interface {
-	GetArticle(ctx context.Context, id *string) (*Article, error)
+	GetArticle(context.Context, *string) (*Article, error)
 	AddArticle(context.Context, *Article) error
-	EditArticle(ctx context.Context, id *string) (*Article, error)
-	DeleteArticle(ctx context.Context, id *string) (*Article, error)
+	EditArticle(context.Context, *Article) error
+	DeleteArticle(context.Context, *string) error
 }

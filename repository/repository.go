@@ -33,10 +33,13 @@ func (r *repository) AddArticle(ctx context.Context, article *domain.Article) er
 	return err
 }
 
-func (r *repository) EditArticle(ctx context.Context, id *string) (*domain.Article, error) {
-	return nil, nil
+func (r *repository) EditArticle(ctx context.Context, article *domain.Article) error {
+	_, err := r.pg.ExecContext(ctx, "UPDATE t_article SET title = $1, content = $2, status = $3, slug = $4 WHERE id = $5",
+		article.Title, article.Content, article.Status, article.Slug, article.ID)
+	return err
 }
 
-func (r *repository) DeleteArticle(ctx context.Context, id *string) (*domain.Article, error) {
-	return nil, nil
+func (r *repository) DeleteArticle(ctx context.Context, id *string) error {
+	_, err := r.pg.ExecContext(ctx, "DELETE FROM t_article WHERE id = $1", id)
+	return err
 }
