@@ -13,6 +13,7 @@ type Article struct {
 	Title     *string    `json:"title,omitempty"`
 	Content   *string    `json:"content,omitempty"`
 	Status    *string    `json:"status,omitempty"`
+	Slug      *string    `json:"slug,omitempty"`
 	CreatorID *string    `json:"creator_id,omitempty"`
 	CreatedAt *time.Time `json:"created_at,omitempty"`
 	UpdatedAt *time.Time `json:"updated_at,omitempty"`

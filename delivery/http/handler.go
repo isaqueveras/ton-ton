@@ -36,7 +36,18 @@ func (a *handler) GetArticle(ctx *gin.Context) {
 }
 
 func (a *handler) AddArticle(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, nil)
+	article := &domain.Article{}
+	if err := ctx.ShouldBindJSON(article); err != nil {
+		ctx.JSON(http.StatusBadRequest, utils.ResponseError{Message: err.Error()})
+		return
+	}
+
+	if err := a.usecase.AddArticle(ctx, article); err != nil {
+		ctx.JSON(http.StatusBadRequest, utils.ResponseError{Message: err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusCreated, nil)
 }
 
 func (a *handler) EditArticle(ctx *gin.Context) {
