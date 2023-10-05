@@ -8,9 +8,11 @@ import (
 	"ton-ton/delivery/http"
 	"ton-ton/repository"
 	"ton-ton/usecase"
+	"ton-ton/utils"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	gopowersso "github.com/isaqueveras/go-powersso"
 	"github.com/spf13/viper"
 )
 
@@ -24,21 +26,21 @@ func init() {
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
+	secret := utils.Pointer(viper.GetString("secret"))
+	cors := cors.New(cors.Config{
+		AllowAllOrigins:  false,
+		AllowOrigins:     viper.GetStringSlice("allow_origins"),
+		AllowOriginFunc:  func(string) bool { panic("not implemented") },
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
+		AllowHeaders:     []string{"Origin", "Authorization", "Content-Type"},
+		ExposeHeaders:    []string{"Content-Length"},
+		MaxAge:           12 * time.Hour,
+		AllowCredentials: true,
+		AllowWildcard:    true,
+	})
+
 	router := gin.New()
-	router.Use(cors.New(cors.Config{
-		AllowAllOrigins:        false,
-		AllowOrigins:           []string{},
-		AllowOriginFunc:        func(string) bool { panic("not implemented") },
-		AllowMethods:           []string{"GET", "POST", "PUT", "DELETE"},
-		AllowHeaders:           []string{},
-		AllowCredentials:       false,
-		ExposeHeaders:          []string{},
-		MaxAge:                 0,
-		AllowWildcard:          false,
-		AllowBrowserExtensions: false,
-		AllowWebSockets:        false,
-		AllowFiles:             false,
-	}))
+	router.Use(cors, gopowersso.Authorization(secret), gopowersso.OnlyAdmin())
 
 	db, err := database.OpenConnection()
 	if err != nil {
