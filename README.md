@@ -1,7 +1,7 @@
 # tón-tón
 tón-tón is a simple headless cms in go
 
-![image](https://github.com/isaqueveras/ton-ton/assets/46972789/3b1ae7fd-cf7c-4347-a925-5b05a6cc4163)
+![image](https://github.com/isaqueveras/ton-ton/assets/46972789/0c3986e6-3705-40ac-a5b2-bbca1496d926)
 
 ---
 
