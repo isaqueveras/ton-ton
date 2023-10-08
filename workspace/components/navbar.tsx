@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <nav className="bg-gray-50 border-gray-200 dark:bg-gray-950 border-b-2">
+    <nav className="bg-white border-gray-200 dark:bg-gray-950 border-b-2">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <div className="flex items-center justify-center">
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white mr-5"><Link href="/workspace">workspace</Link></span>
